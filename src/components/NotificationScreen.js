@@ -3,7 +3,15 @@ import React, { useEffect } from 'react';
 const NotificationScreen = () => {
   useEffect(() => {
     if ('serviceWorker' in navigator) {
-      send().catch(err => console.error(err));
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(registration => {
+            console.log('ServiceWorker registration successful with scope: ', registration.scope);
+          })
+          .catch(error => {
+            console.log('ServiceWorker registration failed: ', error);
+          });
+      });
     }
   }, []);
 
@@ -73,10 +81,10 @@ const NotificationScreen = () => {
         </div>
         <div className="flex items-center justify-center mt-16 mb-6">
           <button
-            className="relative w-[327px] h-[42px] rounded-md p-0 shadow-md overflow-hidden bg-gradient-to-r from-transparent via-red-600 to-transparent font-inter font-semibold text-[16px] text-center text-white"
+            className="relative w-[327px] h-[42px] rounded-md p-0 shadow-md overflow-hidden bg-gradient-to-r from-transparent via-red-600 to-transparent font-inter font-semibold text-[16px] text-center text-white hover:bg-gradient-to-r hover:from-transparent hover:via-red-600 hover:to-transparent hover:bg-red-300 transition-all duration-300 ease-in-out"
             onClick={() => sendNotification()}
           >
-            <span className="absolute inset-0 z-[-1] bg-gradient-to-r from-transparent via-red-600 to-transparent border-solid border-[1.4px] rounded-md"></span>
+            <span className="absolute inset-0 z-[-1] bg-gradient-to-r from-transparent via-red-600 to-transparent border-solid border-[1.4px] rounded-md  "></span>
             Send Notification
           </button>
         </div>
